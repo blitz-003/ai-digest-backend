@@ -4,5 +4,6 @@ from app.models.category import Category
 from app.models.article import Article
 from .comment import Comment
 from app.models.like import Like
+from .bookmark import Bookmark
 
-__all__ = ["User", "Profile", "Category","Article", "Comment", Like]
+__all__ = ["User", "Profile", "Category","Article", "Comment", "Like", "Bookmark"]

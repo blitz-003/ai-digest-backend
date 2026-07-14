@@ -123,3 +123,8 @@ class Article(Base):
         back_populates="article",
         cascade="all, delete-orphan",
     )
+    bookmarks = relationship(
+    "Bookmark",
+    back_populates="article",
+    cascade="all, delete-orphan",
+)
