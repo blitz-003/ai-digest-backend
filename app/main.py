@@ -36,6 +36,13 @@ app.include_router(
     prefix="/api/v1",
 )
 
+from app.api.v1.bookmark import router as bookmark_router
+
+
+app.include_router(
+    bookmark_router,
+    prefix="/api/v1",
+)
 
 @app.get("/")
 def root():
