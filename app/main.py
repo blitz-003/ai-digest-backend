@@ -9,6 +9,8 @@ from app.api.v1.category import router as category_router
 from app.api.v1.admin import router as admin_router
 from app.api.v1.article import router as article_router
 from app.api.v1.comment import router as comment_router
+from app.api.v1.like import router as like_router
+
 
 
 
@@ -27,6 +29,12 @@ app.include_router(comment_router, prefix="/api/v1")
 
 
 app.include_router(article_router, prefix="/api/v1")
+
+
+app.include_router(
+    like_router,
+    prefix="/api/v1",
+)
 
 
 @app.get("/")
