@@ -111,3 +111,9 @@ class Article(Base):
         "Category",
         back_populates="articles",
     )
+
+    comments = relationship(
+        "Comment",
+        back_populates="article",
+        cascade="all, delete-orphan",
+    )

@@ -68,9 +68,15 @@ class Profile(Base):
         onupdate=datetime.utcnow,
         nullable=False,
     )
-    
+
     articles = relationship(
-    "Article",
-    back_populates="author",
-    cascade="all, delete-orphan",
-)
+        "Article",
+        back_populates="author",
+        cascade="all, delete-orphan",
+    )
+
+    comments = relationship(
+        "Comment",
+        back_populates="author",
+        cascade="all, delete-orphan",
+    )
