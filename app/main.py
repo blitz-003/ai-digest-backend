@@ -11,6 +11,10 @@ from app.api.v1.article import router as article_router
 from app.api.v1.comment import router as comment_router
 from app.api.v1.like import router as like_router
 
+from app.api.v1.bookmark import router as bookmark_router
+
+from app.api.v1.dashboard import router as dashboard_router
+from app.api.v1.admin import router as admin_router
 
 
 
@@ -36,13 +40,12 @@ app.include_router(
     prefix="/api/v1",
 )
 
-from app.api.v1.bookmark import router as bookmark_router
-
 
 app.include_router(
     bookmark_router,
     prefix="/api/v1",
 )
+app.include_router(dashboard_router, prefix="/api/v1")
 
 @app.get("/")
 def root():
