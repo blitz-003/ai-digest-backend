@@ -1,61 +1,58 @@
 from uuid import UUID
 
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from jose import jwt, JWTError
+from fastapi import Depends, HTTPException, Request, status
+from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
 from app.dependencies.database import get_db
-from app.models.profile import Profile
 from app.utils.jwt import get_jwks
-
-
-security = HTTPBearer()
+from app.models.profile import Profile
 
 
 async def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    request: Request,
     db: Session = Depends(get_db),
 ):
+    token = request.cookies.get("access_token")
 
-    token = credentials.credentials
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+        )
 
     try:
         jwks = await get_jwks()
-        print(jwks)
 
         header = jwt.get_unverified_header(token)
 
-        rsa_key = None
+        signing_key = None
 
         for key in jwks["keys"]:
             if key["kid"] == header["kid"]:
-                rsa_key = key
+                signing_key = key
                 break
 
-        if not rsa_key:
+        if signing_key is None:
             raise HTTPException(
-                status_code=401,
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Unable to find signing key",
             )
 
-
         payload = jwt.decode(
             token,
-            rsa_key,
+            signing_key,
             algorithms=["ES256"],
             audience="authenticated",
         )
-
 
         user_id = payload.get("sub")
 
         if not user_id:
             raise HTTPException(
-                status_code=401,
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token",
             )
-
 
     except JWTError:
         raise HTTPException(
@@ -63,19 +60,16 @@ async def get_current_user(
             detail="Invalid authentication token",
         )
 
-
     user = (
         db.query(Profile)
         .filter(Profile.id == UUID(user_id))
         .first()
     )
 
-
     if not user:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Profile not found",
         )
-
 
     return user

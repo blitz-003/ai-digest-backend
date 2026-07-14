@@ -45,13 +45,12 @@ class AuthService:
            "access_token": response.session.access_token,
            "refresh_token": response.session.refresh_token,
            "token_type": "bearer",
-           "message": "User created successfully"
+           "message": "User created"
        }
 
 
 
     def login(self, data: LoginRequest):
-
         response = supabase.auth.sign_in_with_password(
             {
                 "email": data.email,
@@ -64,9 +63,6 @@ class AuthService:
         if not session:
             raise Exception("Invalid credentials")
 
+        return session
 
-        return {
-            "access_token": session.access_token,
-            "refresh_token": session.refresh_token,
-            "token_type": "bearer",
-        }
+       

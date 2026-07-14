@@ -24,3 +24,7 @@ class MessageResponse(BaseModel):
     message: str
 
 
+class LoginResponse(BaseModel):
+    message: str
+
+
