@@ -117,3 +117,9 @@ class Article(Base):
         back_populates="article",
         cascade="all, delete-orphan",
     )
+
+    likes = relationship(
+        "Like",
+        back_populates="article",
+        cascade="all, delete-orphan",
+    )

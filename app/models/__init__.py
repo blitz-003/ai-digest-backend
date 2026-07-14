@@ -3,5 +3,6 @@ from app.models.profile import Profile
 from app.models.category import Category
 from app.models.article import Article
 from .comment import Comment
+from app.models.like import Like
 
-__all__ = ["User", "Profile", "Category","Article", "Comment"]
+__all__ = ["User", "Profile", "Category","Article", "Comment", Like]
