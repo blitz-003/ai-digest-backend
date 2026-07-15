@@ -18,7 +18,7 @@ async def get_current_user(
     if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated",
+            detail="hello here is the problem",
         )
 
     try:
