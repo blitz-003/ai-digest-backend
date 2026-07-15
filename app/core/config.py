@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -15,12 +16,13 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str
 
-    STRIPE_SECRET_KEY: str
-    STRIPE_WEBHOOK_SECRET: str
 
-    CLOUDINARY_CLOUD_NAME: str
-    CLOUDINARY_API_KEY: str
-    CLOUDINARY_API_SECRET: str
+    STRIPE_SECRET_KEY: Optional[str] = None
+    STRIPE_WEBHOOK_SECRET: Optional[str] = None
+
+    CLOUDINARY_CLOUD_NAME: Optional[str] = None
+    CLOUDINARY_API_KEY: Optional[str] = None
+    CLOUDINARY_API_SECRET: Optional[str] = None
     SUPABASE_JWKS_URL: str
 
     FRONTEND_URL: str = "http://localhost:3000"
