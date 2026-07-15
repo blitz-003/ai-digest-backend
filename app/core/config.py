@@ -16,6 +16,8 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str
 
+    CORS_ORIGINS: str
+
 
     STRIPE_SECRET_KEY: Optional[str] = None
     STRIPE_WEBHOOK_SECRET: Optional[str] = None

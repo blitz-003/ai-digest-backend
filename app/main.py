@@ -26,7 +26,8 @@ app = FastAPI(title="AI Digest API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",
+        origin.strip()
+        for origin in settings.CORS_ORIGINS.split(",")
     ],
     allow_credentials=True,
     allow_methods=["*"],
