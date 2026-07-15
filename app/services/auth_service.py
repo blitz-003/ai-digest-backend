@@ -65,4 +65,9 @@ class AuthService:
 
         return session
 
-       
+    def logout(self, access_token: str):
+        supabase.auth.sign_out(access_token)
+
+        return {
+            "message": "Logged out successfully"
+        }

@@ -1,20 +1,16 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response, status, Request
 from sqlalchemy.orm import Session
-
-from fastapi import Response, status
-
 
 from app.dependencies.auth import get_current_user
 from app.dependencies.database import get_db
 from app.models.profile import Profile
 from app.schemas.auth import (
-    AuthResponse,
     LoginRequest,
     MessageResponse,
     RegisterRequest,
+    LoginResponse,
 )
 from app.schemas.profile import ProfileResponse
-from app.schemas.auth import LoginResponse
 from app.services.auth_service import AuthService
 
 router = APIRouter(
@@ -53,7 +49,7 @@ def login(
         key="access_token",
         value=session.access_token,
         httponly=True,
-        secure=False,          # True in production (HTTPS)
+        secure=False,
         samesite="lax",
         max_age=60 * 60,
     )
@@ -70,6 +66,42 @@ def login(
     return {
         "message": "Login successful"
     }
+
+
+@router.post(
+    "/logout",
+    response_model=MessageResponse,
+)
+def logout(
+    request: Request,
+    response: Response,
+    db: Session = Depends(get_db),
+):
+    service = AuthService(db)
+
+    access_token = request.cookies.get("access_token")
+
+    if access_token:
+        try:
+            service.logout(access_token)
+        except Exception:
+            # Even if Supabase logout fails,
+            # we still clear browser cookies.
+            pass
+
+    response.delete_cookie(
+        key="access_token"
+    )
+
+    response.delete_cookie(
+        key="refresh_token"
+    )
+
+    return {
+        "message": "Logged out successfully"
+    }
+
+
 @router.get(
     "/me",
     response_model=ProfileResponse,
