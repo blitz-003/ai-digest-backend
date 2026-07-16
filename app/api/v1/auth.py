@@ -108,14 +108,33 @@ def logout(
             # we still clear browser cookies.
             pass
 
+
+    # response.delete_cookie(
+    #     key="access_token"
+    # )
+
+    # response.delete_cookie(
+    #     key="refresh_token"
+    # )
+
+    #for production
+
     response.delete_cookie(
-        key="access_token"
+    key="access_token",
+    path="/",
+    secure=True,
+    httponly=True,
+    samesite="none",
     )
 
     response.delete_cookie(
-        key="refresh_token"
+        key="refresh_token",
+        path="/",
+        secure=True,
+        httponly=True,
+        samesite="none",
     )
-
+    
     return {
         "message": "Logged out successfully"
     }
