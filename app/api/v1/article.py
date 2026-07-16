@@ -65,7 +65,7 @@ def get_article(
     "",
     response_model=ArticleResponse,
     status_code=status.HTTP_201_CREATED,
-    dependencies=[Depends(require_role("author", "admin"))],
+    dependencies=[Depends(require_role("reader","author", "admin"))],
 )
 def create_article(
     article_data: CreateArticleRequest,
@@ -82,7 +82,7 @@ def create_article(
 @router.patch(
     "/{article_id}",
     response_model=ArticleResponse,
-    dependencies=[Depends(require_role("author", "admin"))],
+    dependencies=[Depends(require_role("reader","author", "admin"))],
 )
 def update_article(
     article_id: UUID,
@@ -120,7 +120,7 @@ def update_article(
 @router.delete(
     "/{article_id}",
     status_code=status.HTTP_204_NO_CONTENT,
-    dependencies=[Depends(require_role("author", "admin"))],
+    dependencies=[Depends(require_role("reader","author", "admin"))],
 )
 def delete_article(
     article_id: UUID,

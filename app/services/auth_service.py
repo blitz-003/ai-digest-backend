@@ -35,7 +35,7 @@ class AuthService:
                 email=data.email,
                 username=data.username,
                 full_name=data.full_name,
-                role=None,
+                role="reader",
                 is_premium=False,
             )
 

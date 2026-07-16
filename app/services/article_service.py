@@ -25,9 +25,7 @@ class ArticleService:
     ):
         query = db.query(Article)
 
-        query = query.filter(
-            Article.status == "published"
-        )
+        query = query.filter()
 
         if search:
             query = query.filter(
