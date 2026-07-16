@@ -45,21 +45,40 @@ def login(
 
     session = service.login(data)
 
+    # response.set_cookie(
+    #     key="access_token",
+    #     value=session.access_token,
+    #     httponly=True,
+    #     secure=False,
+    #     samesite="lax",
+    #     max_age=60 * 60,
+    # )
+
+    # response.set_cookie(
+    #     key="refresh_token",
+    #     value=session.refresh_token,
+    #     httponly=True,
+    #     secure=False,
+    #     samesite="lax",
+    #     max_age=60 * 60 * 24 * 30,
+    # )
+
+    # for production
     response.set_cookie(
-        key="access_token",
-        value=session.access_token,
-        httponly=True,
-        secure=False,
-        samesite="lax",
-        max_age=60 * 60,
+    key="access_token",
+    value=session.access_token,
+    httponly=True,
+    secure=True,
+    samesite="none",
+    max_age=60 * 60,
     )
 
     response.set_cookie(
         key="refresh_token",
         value=session.refresh_token,
         httponly=True,
-        secure=False,
-        samesite="lax",
+        secure=True,
+        samesite="none",
         max_age=60 * 60 * 24 * 30,
     )
 
