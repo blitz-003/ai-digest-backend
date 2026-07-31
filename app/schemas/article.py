@@ -38,6 +38,11 @@ class CreateArticleRequest(BaseModel):
     content: str
     cover_image: str | None = None
     category_id: UUID
+    status: Literal[
+        "draft",
+        "published",
+        "archived",
+    ] = "published"
 
 class UpdateArticleRequest(BaseModel):
     title: str | None = None

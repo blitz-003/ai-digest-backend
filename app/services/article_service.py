@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 
@@ -70,6 +72,12 @@ class ArticleService:
     cover_image=article_data.cover_image,
     category_id=article_data.category_id,
     author_id=current_user.id,
+    status=article_data.status,
+    published_at=(
+        datetime.utcnow()
+        if article_data.status == "published"
+        else None
+    ),
     reading_time=calculate_reading_time(
         article_data.content
     ),
