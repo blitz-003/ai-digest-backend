@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 
 from app.dependencies.auth import get_current_user
 from app.dependencies.database import get_db
-from app.dependencies.role import require_role
 
 from app.models.profile import Profile
 
@@ -70,7 +69,6 @@ def my_comments(
 @router.get(
     "/articles",
     response_model=list[ArticleResponse],
-    dependencies=[Depends(require_role("author", "admin"))],
 )
 def my_articles(
     db: Session = Depends(get_db),
@@ -85,7 +83,6 @@ def my_articles(
 @router.get(
     "/stats",
     response_model=DashboardStatsResponse,
-    dependencies=[Depends(require_role("author", "admin"))],
 )
 def dashboard_stats(
     db: Session = Depends(get_db),
